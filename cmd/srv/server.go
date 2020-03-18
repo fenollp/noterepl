@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"database/sql"
-	"os"
 	"time"
 
 	"github.com/fenollp/noterepl/pkg"
@@ -22,6 +20,7 @@ func (srv *Server) prepare(ctx context.Context, fs ...pkg.AuthOption) (context.C
 // Server holds connections to our services accessible by gRPC rpcs.
 type Server struct{}
 
+// Close ...
 func (srv *Server) Close(ctx context.Context) {
 	log := pkg.NewLogFromCtx(ctx)
 	log.Info("down")

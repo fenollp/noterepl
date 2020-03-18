@@ -30,4 +30,11 @@ lint:
 	go fmt ./...
 	$(PROTOLOCK) commit
 
+
+debug: GRPC_HOST ?= localhost:7890
+debug: all
+	GRPC_HOST=$(GRPC_HOST) ./cmd/srv/srv
+
+test: GRPC_HOST ?= localhost:7890
 test: all
+	grpcurl -proto noterepl.proto -d '{"language":"python3", "code":"print(42)\nprint(21*2)"}' -plaintext $(GRPC_HOST) NoteREPL/Eval

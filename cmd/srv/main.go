@@ -2,19 +2,14 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"net"
-	"net/http"
 	"os"
 	"os/signal"
-	"strconv"
-	"strings"
 	"syscall"
 
 	"github.com/fenollp/noterepl/pkg"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 )
 
 var grpcHost = os.Getenv("GRPC_HOST")
@@ -52,12 +47,6 @@ func main() {
 	go func() {
 		// Cuts ctx
 		defer cancel()
-		// Cuts Prometheus metrics
-		defer func() {
-			if err := httProm.Shutdown(ctx); err != nil {
-				log.Error("", zap.Error(err))
-			}
-		}()
 		// Starves gRPC clients
 		defer s.GracefulStop()
 

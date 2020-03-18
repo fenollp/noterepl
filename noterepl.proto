@@ -40,6 +40,6 @@ message EvalReq {
 }
 
 message EvalRep {
-  uint32 error = 1;
+  string stderr = 1;
   Object result = 2;
 }

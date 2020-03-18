@@ -114,8 +114,8 @@
             "fields": [
               {
                 "id": 1,
-                "name": "error",
-                "type": "uint32"
+                "name": "stderr",
+                "type": "string"
               },
               {
                 "id": 2,
