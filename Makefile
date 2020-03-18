@@ -38,4 +38,6 @@ test: GRPC_HOST ?= localhost:7890
 test: SHELL = /bin/bash
 test:
 	[[ '42' = $$(grpcurl -proto noterepl.proto -d '{"language":"python3", "code":"print(2*21)"}'    -plaintext $(GRPC_HOST) NoteREPL/Eval | jq -r .result.value.number) ]]
+	[[ '42' = $$(grpcurl -proto noterepl.proto -d '{"ptr":12162027084228238918}'                    -plaintext $(GRPC_HOST) NoteREPL/Print | jq -r .object.value.number) ]]
 	[[  'e' = $$(grpcurl -proto noterepl.proto -d '{"language":"python3", "code":"print('"'e'"')"}' -plaintext $(GRPC_HOST) NoteREPL/Eval | jq -r .result.value.str   ) ]]
+	[[ '42' = $$(grpcurl -proto noterepl.proto -d '{"ptr":12162027084228238918}'                    -plaintext $(GRPC_HOST) NoteREPL/Print | jq -r .object.value.number) ]]
