@@ -30,7 +30,6 @@ lint:
 	go fmt ./...
 	$(PROTOLOCK) commit
 
-
 debug: GRPC_HOST ?= localhost:7890
 debug: all
 	GRPC_HOST=$(GRPC_HOST) ./cmd/srv/srv
@@ -38,5 +37,5 @@ debug: all
 test: GRPC_HOST ?= localhost:7890
 test: SHELL = /bin/bash
 test:
-	[[ '42' = $$(grpcurl -proto noterepl.proto -d '{"language":"python3", "code":"print(2*21)"}'    -plaintext $(GRPC_HOST) NoteREPL/Eval | jq -r .result.value.str) ]]
-	[[  'e' = $$(grpcurl -proto noterepl.proto -d '{"language":"python3", "code":"print('"'e'"')"}' -plaintext $(GRPC_HOST) NoteREPL/Eval | jq -r .result.value.str) ]]
+	[[ '42' = $$(grpcurl -proto noterepl.proto -d '{"language":"python3", "code":"print(2*21)"}'    -plaintext $(GRPC_HOST) NoteREPL/Eval | jq -r .result.value.number) ]]
+	[[  'e' = $$(grpcurl -proto noterepl.proto -d '{"language":"python3", "code":"print('"'e'"')"}' -plaintext $(GRPC_HOST) NoteREPL/Eval | jq -r .result.value.str   ) ]]

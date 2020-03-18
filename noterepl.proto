@@ -4,13 +4,13 @@ option go_package = "pkg";
 
 service NoteREPL {
   rpc Eval(EvalReq) returns (EvalRep) {}
-  // rpc Print(PrintReq) returns (PrintRep) {}
+  rpc Print(PrintReq) returns (PrintRep) {}
 }
 
 
 message Object {
   Value value = 1;
-  int64 ptr = 2;
+  uint64 ptr = 2;
 }
 
 // Only one of these fields are ever set at once
@@ -24,6 +24,7 @@ message Value {
     is_list = 4;
     is_hashmap = 5;
     is_url = 6;
+    is_bool = 7;
   }
   Kind kind = 1;
   string str = 2;
@@ -31,6 +32,7 @@ message Value {
   repeated Object list = 4;
   map<string,Object> hashmap = 5;
   string url = 6;
+  bool boolean = 7;
 }
 
 
@@ -42,4 +44,13 @@ message EvalReq {
 message EvalRep {
   string stderr = 1;
   Object result = 2;
+}
+
+message PrintReq {
+  // uint64 is ptr
+  repeated uint64 path = 1;
+}
+
+message PrintRep {
+  Value value = 1;
 }

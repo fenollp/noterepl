@@ -33,6 +33,10 @@
               {
                 "name": "is_url",
                 "integer": 6
+              },
+              {
+                "name": "is_bool",
+                "integer": 7
               }
             ]
           }
@@ -49,7 +53,7 @@
               {
                 "id": 2,
                 "name": "ptr",
-                "type": "int64"
+                "type": "uint64"
               }
             ]
           },
@@ -81,6 +85,11 @@
                 "id": 6,
                 "name": "url",
                 "type": "string"
+              },
+              {
+                "id": 7,
+                "name": "boolean",
+                "type": "bool"
               }
             ],
             "maps": [
@@ -123,6 +132,27 @@
                 "type": "Object"
               }
             ]
+          },
+          {
+            "name": "PrintReq",
+            "fields": [
+              {
+                "id": 1,
+                "name": "path",
+                "type": "uint64",
+                "is_repeated": true
+              }
+            ]
+          },
+          {
+            "name": "PrintRep",
+            "fields": [
+              {
+                "id": 1,
+                "name": "value",
+                "type": "Value"
+              }
+            ]
           }
         ],
         "services": [
@@ -133,6 +163,11 @@
                 "name": "Eval",
                 "in_type": "EvalReq",
                 "out_type": "EvalRep"
+              },
+              {
+                "name": "Print",
+                "in_type": "PrintReq",
+                "out_type": "PrintRep"
               }
             ]
           }

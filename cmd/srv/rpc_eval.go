@@ -35,7 +35,8 @@ func (srv *Server) Eval(ctx context.Context, req *pkg.EvalReq) (rep *pkg.EvalRep
 		return
 	}
 
-	var stderr, stdout string
+	var stderr string
+	var stdout []byte
 	if stderr, stdout, err = eval(ctx, cmd, code); err != nil {
 		return
 	}
@@ -48,7 +49,7 @@ func (srv *Server) Eval(ctx context.Context, req *pkg.EvalReq) (rep *pkg.EvalRep
 	return
 }
 
-func eval(ctx context.Context, cmd *exec.Cmd, code string) (stderr, stdout string, err error) {
+func eval(ctx context.Context, cmd *exec.Cmd, code string) (stderr string, stdout []byte, err error) {
 	log := pkg.NewLogFromCtx(ctx)
 
 	var stdinPipe io.WriteCloser
@@ -91,5 +92,5 @@ func eval(ctx context.Context, cmd *exec.Cmd, code string) (stderr, stdout strin
 		return
 	}
 
-	return string(errbytes), string(outbytes), nil
+	return string(errbytes), outbytes, nil
 }
