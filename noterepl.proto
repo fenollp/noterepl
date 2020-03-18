@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option go_package = "pkg";
+
+service NoteREPL {
+  rpc Eval(EvalReq) returns (EvalRep) {}
+  // rpc Print(PrintReq) returns (PrintRep) {}
+}
+
+
+message Object {
+  Value value = 1;
+  int64 ptr = 2;
+}
+
+// Only one of these fields are ever set at once
+// Not using `oneof` here as types gets less weird this way.
+message Value {
+  enum Kind {
+    EMPTY = 0;
+    is_null = 1;
+    is_str = 2;
+    is_number = 3;
+    is_list = 4;
+    is_hashmap = 5;
+    is_url = 6;
+  }
+  Kind kind = 1;
+  string str = 2;
+  double number = 3;
+  repeated Object list = 4;
+  map<string,Object> hashmap = 5;
+  string url = 6;
+}
+
+
+message EvalReq {
+  string language = 1;
+  string code = 2;
+}
+
+message EvalRep {
+  uint32 error = 1;
+  Object result = 2;
+}

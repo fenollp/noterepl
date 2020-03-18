@@ -1,0 +1,150 @@
+{
+  "definitions": [
+    {
+      "protopath": "noterepl.proto",
+      "def": {
+        "enums": [
+          {
+            "name": "Value.Kind",
+            "enum_fields": [
+              {
+                "name": "EMPTY"
+              },
+              {
+                "name": "is_null",
+                "integer": 1
+              },
+              {
+                "name": "is_str",
+                "integer": 2
+              },
+              {
+                "name": "is_number",
+                "integer": 3
+              },
+              {
+                "name": "is_list",
+                "integer": 4
+              },
+              {
+                "name": "is_hashmap",
+                "integer": 5
+              },
+              {
+                "name": "is_url",
+                "integer": 6
+              }
+            ]
+          }
+        ],
+        "messages": [
+          {
+            "name": "Object",
+            "fields": [
+              {
+                "id": 1,
+                "name": "value",
+                "type": "Value"
+              },
+              {
+                "id": 2,
+                "name": "ptr",
+                "type": "int64"
+              }
+            ]
+          },
+          {
+            "name": "Value",
+            "fields": [
+              {
+                "id": 1,
+                "name": "kind",
+                "type": "Kind"
+              },
+              {
+                "id": 2,
+                "name": "str",
+                "type": "string"
+              },
+              {
+                "id": 3,
+                "name": "number",
+                "type": "double"
+              },
+              {
+                "id": 4,
+                "name": "list",
+                "type": "Object",
+                "is_repeated": true
+              },
+              {
+                "id": 6,
+                "name": "url",
+                "type": "string"
+              }
+            ],
+            "maps": [
+              {
+                "key_type": "string",
+                "field": {
+                  "id": 5,
+                  "name": "hashmap",
+                  "type": "Object"
+                }
+              }
+            ]
+          },
+          {
+            "name": "EvalReq",
+            "fields": [
+              {
+                "id": 1,
+                "name": "language",
+                "type": "string"
+              },
+              {
+                "id": 2,
+                "name": "code",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "EvalRep",
+            "fields": [
+              {
+                "id": 1,
+                "name": "error",
+                "type": "uint32"
+              },
+              {
+                "id": 2,
+                "name": "result",
+                "type": "Object"
+              }
+            ]
+          }
+        ],
+        "services": [
+          {
+            "name": "NoteREPL",
+            "rpcs": [
+              {
+                "name": "Eval",
+                "in_type": "EvalReq",
+                "out_type": "EvalRep"
+              }
+            ]
+          }
+        ],
+        "package": {},
+        "options": [
+          {
+            "name": "go_package",
+            "value": "pkg"
+          }
+        ]
+      }
+    }
+  ]
+}
