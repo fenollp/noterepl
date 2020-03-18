@@ -9,5 +9,6 @@ func ptr(v interface{}) uint64 {
 	if err != nil {
 		panic(err)
 	}
+
 	return hash
 }

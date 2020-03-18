@@ -47,10 +47,9 @@ message EvalRep {
 }
 
 message PrintReq {
-  // uint64 is ptr
-  repeated uint64 path = 1;
+  uint64 ptr = 1;
 }
 
 message PrintRep {
-  Value value = 1;
+  Object object = 1;
 }

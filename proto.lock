@@ -138,9 +138,8 @@
             "fields": [
               {
                 "id": 1,
-                "name": "path",
-                "type": "uint64",
-                "is_repeated": true
+                "name": "ptr",
+                "type": "uint64"
               }
             ]
           },
@@ -149,8 +148,8 @@
             "fields": [
               {
                 "id": 1,
-                "name": "value",
-                "type": "Value"
+                "name": "object",
+                "type": "Object"
               }
             ]
           }

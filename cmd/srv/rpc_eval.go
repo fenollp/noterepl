@@ -22,11 +22,13 @@ func (srv *Server) Eval(ctx context.Context, req *pkg.EvalReq) (rep *pkg.EvalRep
 	log := pkg.NewLogFromCtx(ctx)
 	language := req.GetLanguage()
 	code := req.GetCode()
-	log.Info("handling Eval")
+	log.Info("handling Eval", zap.String("code", code))
 	start := time.Now()
 
 	var cmd *exec.Cmd
 	switch language {
+	case "id":
+		cmd = exec.CommandContext(ctx, "./cmd/srv/id.sh")
 	case "python3":
 		cmd = exec.CommandContext(ctx, "docker", "run", "--rm", "-i", "python:3-alpine", "python3", "-c", "eval(input())")
 	default:

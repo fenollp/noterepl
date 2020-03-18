@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/fenollp/noterepl/pkg"
@@ -16,10 +17,18 @@ func (srv *Server) Print(ctx context.Context, req *pkg.PrintReq) (rep *pkg.Print
 		return
 	}
 	log := pkg.NewLogFromCtx(ctx)
-	path := req.GetPath()
-	log.Info("handling Print", zap.Int("path depth", len(path)))
+	ptr := req.GetPtr()
+	log.Info("handling Print")
 	start := time.Now()
 
+	if ptr == 0 {
+		err = errors.New("empty")
+		log.Error("", zap.Error(err))
+		return
+	}
+	object := pkg.Get(ptr)
+
+	rep = &pkg.PrintRep{Object: object}
 	log.Info("handled Print", zap.Duration("in", time.Since(start)))
 	return
 }

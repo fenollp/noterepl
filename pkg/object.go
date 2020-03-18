@@ -20,40 +20,40 @@ func ObjectFrom(data []byte) *Object {
 }
 
 func number(vv float64) *Object {
-	return &Object{
+	return Put(&Object{
 		Ptr: ptr(vv),
 		Value: &Value{
 			Kind:   Value_is_number,
 			Number: vv,
 		},
-	}
+	})
 }
 
 func objectFromInterface(v interface{}) *Object {
 	switch vv := v.(type) {
 	case nil:
-		return &Object{
+		return Put(&Object{
 			Ptr:   ptr(vv),
 			Value: &Value{Kind: Value_is_null},
-		}
+		})
 
 	case bool:
-		return &Object{
+		return Put(&Object{
 			Ptr: ptr(vv),
 			Value: &Value{
 				Kind:    Value_is_bool,
 				Boolean: vv,
 			},
-		}
+		})
 
 	case string:
-		return &Object{
+		return Put(&Object{
 			Ptr: ptr(vv),
 			Value: &Value{
 				Kind: Value_is_str,
 				Str:  vv,
 			},
-		}
+		})
 
 	case float32:
 		return number(float64(vv))
@@ -86,13 +86,27 @@ func objectFromInterface(v interface{}) *Object {
 			y := objectFromInterface(x)
 			xs = append(xs, y)
 		}
-		return &Object{
+		return Put(&Object{
 			Ptr: ptr(vv),
 			Value: &Value{
 				Kind: Value_is_list,
 				List: xs,
 			},
+		})
+
+	case map[string]interface{}:
+		xs := make(map[string]*Object, len(vv))
+		for k, x := range vv {
+			y := objectFromInterface(x)
+			xs[k] = y
 		}
+		return Put(&Object{
+			Ptr: ptr(vv),
+			Value: &Value{
+				Kind:    Value_is_hashmap,
+				Hashmap: xs,
+			},
+		})
 
 	default:
 		panic(fmt.Sprintf("unhandled %T %v", vv, vv))
