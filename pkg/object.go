@@ -3,20 +3,50 @@ package pkg
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/jinzhu/copier"
 )
 
 // ObjectFrom ...
-func ObjectFrom(data []byte) *Object {
+func ObjectFrom(data []byte) (o *Object) {
 	if len(data) == 0 {
 		return &Object{Value: &Value{Kind: Value_EMPTY}}
 	}
 
 	var v interface{}
 	if err := json.Unmarshal(data, &v); err == nil {
-		return objectFromInterface(v)
+		o = objectFromInterface(v)
+	} else {
+		o = objectFromInterface(string(data))
 	}
 
-	return objectFromInterface(string(data))
+	return o
+}
+
+// CloneObject ...
+func CloneObject(i *Object) *Object {
+	var o Object
+	// deep copy
+	copier.Copy(&o, i)
+
+	// Split data. Get more data today by doing calls to Print!
+	if o.Value != nil {
+		for i := range o.Value.List {
+			if o.Value.List[i].Value != nil {
+				for j := range o.Value.List[i].Value.List {
+					o.Value.List[i].Value.List[j].Value = nil
+				}
+			}
+		}
+		for k := range o.Value.Hashmap {
+			if o.Value.Hashmap[k].Value != nil {
+				for l := range o.Value.Hashmap[k].Value.Hashmap {
+					o.Value.Hashmap[k].Value.Hashmap[l].Value = nil
+				}
+			}
+		}
+	}
+	return &o
 }
 
 func number(vv float64) *Object {

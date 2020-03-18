@@ -28,7 +28,7 @@ func (srv *Server) Print(ctx context.Context, req *pkg.PrintReq) (rep *pkg.Print
 	}
 	object := pkg.Get(ptr)
 
-	rep = &pkg.PrintRep{Object: object}
+	rep = &pkg.PrintRep{Object: pkg.CloneObject(object)}
 	log.Info("handled Print", zap.Duration("in", time.Since(start)))
 	return
 }

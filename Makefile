@@ -41,3 +41,6 @@ test:
 	[[ '42' = $$(grpcurl -proto noterepl.proto -d '{"ptr":12162027084228238918}'                    -plaintext $(GRPC_HOST) NoteREPL/Print | jq -r .object.value.number) ]]
 	[[  'e' = $$(grpcurl -proto noterepl.proto -d '{"language":"python3", "code":"print('"'e'"')"}' -plaintext $(GRPC_HOST) NoteREPL/Eval | jq -r .result.value.str   ) ]]
 	[[ '42' = $$(grpcurl -proto noterepl.proto -d '{"ptr":12162027084228238918}'                    -plaintext $(GRPC_HOST) NoteREPL/Print | jq -r .object.value.number) ]]
+	grpcurl -proto noterepl.proto -d '{"language":"python3", "code":"print([2,[32,[34]]])"}' -plaintext $(GRPC_HOST) NoteREPL/Eval
+	grpcurl -proto noterepl.proto -d '{"ptr":14684827873577988451}'    -plaintext $(GRPC_HOST) NoteREPL/Print
+#	[[ '23234' = $$(grpcurl -proto noterepl.proto -d '{"language":"id", "code":"23234"}'    -plaintext $(GRPC_HOST) NoteREPL/Eval | jq -r .result.value.number) ]]

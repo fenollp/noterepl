@@ -42,10 +42,11 @@ func (srv *Server) Eval(ctx context.Context, req *pkg.EvalReq) (rep *pkg.EvalRep
 	if stderr, stdout, err = eval(ctx, cmd, code); err != nil {
 		return
 	}
+	log.Debug(">>>", zap.String("STDERR", stderr), zap.String("STDOUT", string(stdout)))
 
 	rep = &pkg.EvalRep{
 		Stderr: stderr,
-		Result: pkg.ObjectFrom(stdout),
+		Result: pkg.CloneObject(pkg.ObjectFrom(stdout)),
 	}
 	log.Info("handled Eval", zap.Duration("in", time.Since(start)))
 	return
