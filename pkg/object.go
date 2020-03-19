@@ -117,7 +117,7 @@ func objectFromInterface(v interface{}) *Object {
 			xs = append(xs, y)
 		}
 		return Put(&Object{
-			Ptr: ptr(vv),
+			Ptr: ptr(vv), // ptr(vv) = ptr([42 , [...]])
 			Value: &Value{
 				Kind: Value_is_list,
 				List: xs,

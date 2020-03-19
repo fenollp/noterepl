@@ -56,7 +56,7 @@ func (opts *AuthOptions) Deadline(ctx context.Context, uid string) (
 ) {
 	cancel := func() {}
 	if !opts.noDeadline {
-		ctx, cancel = context.WithTimeout(ctx, 3*500*time.Millisecond)
+		ctx, cancel = context.WithTimeout(ctx, 1e10*time.Millisecond)
 	}
 	ctx = context.WithValue(ctx, uniqueIdKey, uid)
 	return ctx, cancel, nil
